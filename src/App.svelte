@@ -4,26 +4,42 @@
 	import './app.css';
 	import { onMount, tick } from 'svelte';
 
-	let showTicTacToe = true;
+	let showTicTacToe = false;
 
 	onMount(async () => {
 		await tick();
 		showTicTacToe = false;
 	});
+
+	let playerNames = {
+		playerXName: '',
+		playerOName: '',
+	};
+	const handleMenuButtonClick = (event: CustomEvent<{ playerXName: string; playerOName: string }>) => {
+		if (event.detail.playerXName !== '' && event.detail.playerOName !== '') {
+			playerNames = event.detail;
+			showTicTacToe = true;
+		} else {
+			alert('Please enter player names');
+		}
+	};
+	const handleTicTacToeButtonClick = () => {
+		showTicTacToe = false;
+		playerNames = {
+			playerXName: '',
+			playerOName: '',
+		};
+	};
 </script>
 
 <main>
 	{#if showTicTacToe}
-		<div class=" container flex flex-col items-center justify-center">
-			<TicTacToe />
-			<button class="btn btn-secondary btn-lg btn-wide" on:click={() => (showTicTacToe = !showTicTacToe)}>
-				Back to Main Menu</button
-			>
+		<div class="flex flex-col items-center justify-center">
+			<TicTacToe {playerNames} on:menuButtonClick={handleTicTacToeButtonClick} />
 		</div>
 	{:else}
 		<div class="h-screen container mx-auto flex flex-col items-center justify-center">
-			<Menu />
-			<!-- <button class="btn btn-primary btn-lg btn-wide" on:click={() => (showTicTacToe = !showTicTacToe)}> Start </button> -->
+			<Menu {...playerNames} on:menuButtonClick={handleMenuButtonClick} />
 		</div>
 	{/if}
 </main>
