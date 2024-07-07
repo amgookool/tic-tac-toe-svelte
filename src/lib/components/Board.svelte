@@ -30,6 +30,7 @@
 			<div class="flex">
 				{#each [0, 1, 2] as col}
 					<Tile
+						bind:currentPlayer
 						on:tileClick={handleTileClick}
 						value={tiles[row * 3 + col]}
 						index={row * 3 + col}

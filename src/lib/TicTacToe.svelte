@@ -64,6 +64,9 @@
 <div class="flex flex-col w-full justify-center text-center items-center gap-8">
 	<ScoreCard {...gameScores} bind:currentPlayer />
 	<Board bind:tiles bind:currentPlayer bind:winStrokeClass bind:disabledTiles {isDraw} />
+	{#if winnerName}
+		<span>{winnerName} won!</span>
+	{/if}
 	<div class="flex flex-row gap-6">
 		<button on:click={handleMenuButtonClick} class="btn btn-secondary">Main Menu</button>
 		<button disabled={!isGameOver} on:click={handlePlayAgain} class={`btn btn-primary`}>Play Again</button>
