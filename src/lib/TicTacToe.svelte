@@ -21,6 +21,7 @@
 	$: currentPlayer = 'X';
 	$: winStrokeClass = '';
 	$: isGameOver = false;
+	$: winnerName = winner.isWin ? winner.player : null;
 	$: if (winner.isWin) {
 		isGameOver = true;
 		disabledTiles = Array(9).fill(true);
@@ -41,11 +42,6 @@
 		tiles = Array(9).fill(null);
 		disabledTiles = Array(9).fill(false);
 		winStrokeClass = '';
-		if (currentPlayer === 'O') {
-			currentPlayer = 'X';
-		} else {
-			currentPlayer = 'O';
-		}
 	};
 
 	const menuButtonDispatchEvent = createEventDispatcher<{ menuButtonClick: { index: number } }>();
@@ -66,12 +62,19 @@
 
 <!-- flex flex-col items-center justify-center w-full h-screen text-center -->
 <div class="flex flex-col w-full justify-center text-center items-center gap-8">
-	<ScoreCard {...gameScores} />
-	<Board bind:tiles {currentPlayer} bind:winStrokeClass bind:disabledTiles {isDraw} />
+	<ScoreCard {...gameScores} bind:currentPlayer />
+	<Board bind:tiles bind:currentPlayer bind:winStrokeClass bind:disabledTiles {isDraw} />
 	<div class="flex flex-row gap-6">
 		<button on:click={handleMenuButtonClick} class="btn btn-secondary">Main Menu</button>
 		<button disabled={!isGameOver} on:click={handlePlayAgain} class={`btn btn-primary`}>Play Again</button>
 	</div>
 </div>
-<!-- <GameOver /> -->
-<!-- <Reset /> -->
+
+<style>
+	.btn {
+		transition: filter 0.3s;
+	}
+	.btn-overlay {
+		filter: brightness(1.5); /* Increase the brightness */
+	}
+</style>
