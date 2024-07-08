@@ -63,10 +63,16 @@
 <!-- flex flex-col items-center justify-center w-full h-screen text-center -->
 <div class="flex flex-col w-full justify-center text-center items-center gap-8">
 	<ScoreCard {...gameScores} bind:currentPlayer />
-	<Board bind:tiles bind:currentPlayer bind:winStrokeClass bind:disabledTiles {isDraw} />
-	{#if winnerName}
-		<span>{winnerName} won!</span>
-	{/if}
+	<div class="flex flex-row">
+		<Board bind:tiles bind:currentPlayer bind:winStrokeClass bind:disabledTiles {isDraw} />
+		{#if winnerName}
+			<div
+				class="bg-accent-content flex flex-row h-16 w-48 rounded-box place-items-center justify-center relative top-36 left-20"
+			>
+				<span class="text-primary font-bold">{winnerName} Won!</span>
+			</div>
+		{/if}
+	</div>
 	<div class="flex flex-row gap-6">
 		<button on:click={handleMenuButtonClick} class="btn btn-secondary">Main Menu</button>
 		<button disabled={!isGameOver} on:click={handlePlayAgain} class={`btn btn-primary`}>Play Again</button>
